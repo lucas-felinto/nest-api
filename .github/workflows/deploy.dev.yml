@@ -5,24 +5,27 @@ name: Nest Test CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 jobs:
-  check-application:
+  deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16, 18]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js 18x
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run test
+        node-version: '18.x'
+    - name: Installing dependences
+      run: npm install
+    - name: Testing application
+      run: npm run test
+
+    - name: Building Docker image
+      run: docker build . --file Dockerfile --tag nest-api:$(date +%s)
+
+    - name: Success
+      run: echo Build complete
