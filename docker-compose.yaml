@@ -4,6 +4,8 @@ services:
   api:
     build: .
     container_name: 'nest-api'
+    environment:
+      - DATABASE_URL=mysql://root:password@localhost:3306/mydb?schema=public
     ports:
       - "3000:3000"
 
