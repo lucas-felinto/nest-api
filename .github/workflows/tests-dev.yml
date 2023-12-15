@@ -15,11 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Using Node.js 18x
+    - name: Setup Node.js 18x
       uses: actions/setup-node@v4
       with:
         node-version: '18.x'
-    - name: Installing dependencies
     - run: npm install
-    - name: Running tests
     - run: npm run test
